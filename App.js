@@ -3,6 +3,7 @@ import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Home from './src/screens/Home';
 import Films from './src/screens/Films';
+import DetaillFilm from './src/screens/DetaillFilm';
 
 const Stack = createNativeStackNavigator();
 
@@ -28,11 +29,11 @@ const App = () => {
           component={Films}
           options={{headerShown: false}}
         />
-        {/* <Stack.Screen
-            name="Player"
-            component={Player}
-            options={{headerShown: false}}
-          /> */}
+        <Stack.Screen
+          name="Detaill"
+          component={DetaillFilm}
+          options={{headerShown: false}}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

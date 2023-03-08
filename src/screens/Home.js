@@ -4,6 +4,7 @@ import {
   Image,
   View,
   Button,
+  ScrollView,
   TouchableOpacity,
   ImageBackground,
   TextInput,
@@ -12,6 +13,7 @@ import React, {useState} from 'react';
 import Navbar from '../components/Navbar';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Feather from 'react-native-vector-icons/Feather';
+import StarRating from 'react-native-star-rating';
 
 const Home = ({navigation}) => {
   const [search, setSearch] = useState('');
@@ -70,7 +72,148 @@ const Home = ({navigation}) => {
         </View>
 
         <View style={styles.films}>
-          <Text style={{color: 'white', fontSize: 20}}>Films</Text>
+          <Text style={{color: 'white', fontSize: 20, marginVertical: 10}}>
+            Films
+          </Text>
+          <ScrollView>
+            <View style={styles.filmsList}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('Detaill')}
+                style={styles.film}>
+                <Image
+                  style={{width: 150, height: 200, borderRadius: 20}}
+                  source={require('./images/filmimg.png')}
+                />
+                <View style={styles.topImage}>
+                  <Text style={{color: 'white', fontSize: 18}}>
+                    Black Panther: Wakanda Forever
+                  </Text>
+                  <StarRating
+                    disabled={true} // Set to true to disable user interaction
+                    maxStars={5} // The total number of stars to display
+                    rating={3.5} // The rating to display
+                    starSize={20} // The size of each star
+                    fullStarColor="yellow" // set the color of the filled star
+                    emptyStarColor="yellow" // set the color of the empty star
+                  />
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.film}>
+                <Image
+                  style={{width: 150, height: 200, borderRadius: 20}}
+                  source={require('./images/filmimg.png')}
+                />
+                <View style={styles.topImage}>
+                  <Text style={{color: 'white', fontSize: 18}}>
+                    Black Panther: Wakanda Forever
+                  </Text>
+                  <StarRating
+                    disabled={true} // Set to true to disable user interaction
+                    maxStars={5} // The total number of stars to display
+                    rating={3.5} // The rating to display
+                    starSize={20} // The size of each star
+                    fullStarColor="yellow" // set the color of the filled star
+                    emptyStarColor="yellow" // set the color of the empty star
+                  />
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.film}>
+                <Image
+                  style={{width: 150, height: 200, borderRadius: 20}}
+                  source={require('./images/filmimg.png')}
+                />
+                <View style={styles.topImage}>
+                  <Text style={{color: 'white', fontSize: 18}}>
+                    Black Panther: Wakanda Forever
+                  </Text>
+                  <StarRating
+                    disabled={true} // Set to true to disable user interaction
+                    maxStars={5} // The total number of stars to display
+                    rating={3.5} // The rating to display
+                    starSize={20} // The size of each star
+                    fullStarColor="yellow" // set the color of the filled star
+                    emptyStarColor="yellow" // set the color of the empty star
+                  />
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.film}>
+                <Image
+                  style={{width: 150, height: 200, borderRadius: 20}}
+                  source={require('./images/filmimg.png')}
+                />
+                <View style={styles.topImage}>
+                  <Text style={{color: 'white', fontSize: 18}}>
+                    Black Panther: Wakanda Forever
+                  </Text>
+                  <StarRating
+                    disabled={true} // Set to true to disable user interaction
+                    maxStars={5} // The total number of stars to display
+                    rating={3.5} // The rating to display
+                    starSize={20} // The size of each star
+                    fullStarColor="yellow" // set the color of the filled star
+                    emptyStarColor="yellow" // set the color of the empty star
+                  />
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.film}>
+                <Image
+                  style={{width: 150, height: 200, borderRadius: 20}}
+                  source={require('./images/filmimg.png')}
+                />
+                <View style={styles.topImage}>
+                  <Text style={{color: 'white', fontSize: 18}}>
+                    Black Panther: Wakanda Forever
+                  </Text>
+                  <StarRating
+                    disabled={true} // Set to true to disable user interaction
+                    maxStars={5} // The total number of stars to display
+                    rating={3.5} // The rating to display
+                    starSize={20} // The size of each star
+                    fullStarColor="yellow" // set the color of the filled star
+                    emptyStarColor="yellow" // set the color of the empty star
+                  />
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.film}>
+                <Image
+                  style={{width: 150, height: 200, borderRadius: 20}}
+                  source={require('./images/filmimg.png')}
+                />
+                <View style={styles.topImage}>
+                  <Text style={{color: 'white', fontSize: 18}}>
+                    Black Panther: Wakanda Forever
+                  </Text>
+                  <StarRating
+                    disabled={true} // Set to true to disable user interaction
+                    maxStars={5} // The total number of stars to display
+                    rating={3.5} // The rating to display
+                    starSize={20} // The size of each star
+                    fullStarColor="yellow" // set the color of the filled star
+                    emptyStarColor="yellow" // set the color of the empty star
+                  />
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.film}>
+                <Image
+                  style={{width: 150, height: 200, borderRadius: 20}}
+                  source={require('./images/filmimg.png')}
+                />
+                <View style={styles.topImage}>
+                  <Text style={{color: 'white', fontSize: 18}}>
+                    Black Panther: Wakanda Forever
+                  </Text>
+                  <StarRating
+                    disabled={true} // Set to true to disable user interaction
+                    maxStars={5} // The total number of stars to display
+                    rating={3.5} // The rating to display
+                    starSize={20} // The size of each star
+                    fullStarColor="yellow" // set the color of the filled star
+                    emptyStarColor="yellow" // set the color of the empty star
+                  />
+                </View>
+              </TouchableOpacity>
+            </View>
+          </ScrollView>
         </View>
       </ImageBackground>
       {/* <Navbar /> */}
@@ -138,5 +281,24 @@ const styles = StyleSheet.create({
 
   films: {
     marginHorizontal: '5%',
+  },
+  filmsList: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+  },
+  film: {
+    position: 'relative',
+    marginHorizontal: 5,
+    marginVertical: 5,
+  },
+  topImage: {
+    position: 'absolute',
+    width: 150,
+    backgroundColor: 'rgba(9, 9, 15, 0.6)',
+    height: '100%',
+    justifyContent: 'flex-end',
+    paddingBottom: 20,
+    paddingHorizontal: 10,
   },
 });
