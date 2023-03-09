@@ -152,6 +152,7 @@ dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
     implementation project(':react-native-vector-icons')
+    implementation project(':react-native-linear-gradient')
 
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.0.0")
 

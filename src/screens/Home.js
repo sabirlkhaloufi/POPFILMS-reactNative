@@ -8,15 +8,65 @@ import {
   TouchableOpacity,
   ImageBackground,
   TextInput,
+  ActivityIndicator,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Navbar from '../components/Navbar';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Feather from 'react-native-vector-icons/Feather';
 import StarRating from 'react-native-star-rating';
+import {useDispatch, useSelector} from 'react-redux';
+import {fetchMovies} from '../redux/store/moviesSlice';
+import axios from 'axios';
+
+const categories = [
+  {categorie: 'popular', icon: 'star', Active: false},
+  {categorie: 'top_rated', icon: 'star', Active: false},
+  {categorie: 'upcoming', icon: 'star', Active: false},
+  {categorie: 'now_playing', icon: 'star', Active: false},
+];
 
 const Home = ({navigation}) => {
   const [search, setSearch] = useState('');
+
+  const [categorie, setCategorie] = useState('popular');
+
+  const filterCategory = cat => {
+    setCategorie(cat);
+  };
+
+  const searchMovies = () => {
+    axios
+      .get(
+        `https://api.themoviedb.org/3/search/movie?api_key=bcc4ff10c2939665232d75d8bf0ec093&query=${search}`,
+      )
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    searchMovies();
+    // dispatch(searchMovies(search));
+  }, [search]);
+
+  const dispatch = useDispatch();
+  const movies = useSelector(state => state.movies.movies);
+  const status = useSelector(state => state.movies.status);
+  const error = useSelector(state => state.movies.error);
+
+  useEffect(() => {
+    dispatch(fetchMovies(categorie));
+  }, [categorie]);
+
+  console.log(movies);
+
+  if (status === 'failed') {
+    return <Text>{error}</Text>;
+  }
   return (
     <>
       <ImageBackground style={styles.bg} source={require('./images/bg.jpg')}>
@@ -44,174 +94,65 @@ const Home = ({navigation}) => {
         <View style={styles.filter}>
           <Text style={{color: 'white', fontSize: 20}}>Filters</Text>
           <View style={styles.squares}>
-            <View style={styles.categorie}>
-              <TouchableOpacity style={styles.square}>
-                <AntDesign name="star" size={35} color="white" />
-              </TouchableOpacity>
-              <Text style={{color: 'white', marginTop: 3}}>Popular</Text>
-            </View>
-            <View style={styles.categorie}>
-              <TouchableOpacity style={styles.square}>
-                <AntDesign name="star" size={35} color="white" />
-              </TouchableOpacity>
-              <Text style={{color: 'white', marginTop: 3}}>Popular</Text>
-            </View>
-            <View style={styles.categorie}>
-              <TouchableOpacity style={styles.square}>
-                <AntDesign name="star" size={35} color="white" />
-              </TouchableOpacity>
-              <Text style={{color: 'white', marginTop: 3}}>Popular</Text>
-            </View>
-            <View style={styles.categorie}>
-              <TouchableOpacity style={styles.square}>
-                <AntDesign name="star" size={35} color="white" />
-              </TouchableOpacity>
-              <Text style={{color: 'white', marginTop: 3}}>Popular</Text>
-            </View>
+            {categories.map(category => {
+              return (
+                <View style={styles.categorie}>
+                  <TouchableOpacity
+                    style={styles.square}
+                    onPress={() => filterCategory(category.categorie)}>
+                    <AntDesign name={category.icon} size={35} color="white" />
+                  </TouchableOpacity>
+                  <Text style={{color: 'white', marginTop: 3}}>
+                    {category.categorie}
+                  </Text>
+                </View>
+              );
+            })}
           </View>
         </View>
 
         <View style={styles.films}>
           <Text style={{color: 'white', fontSize: 20, marginVertical: 10}}>
-            Films
+            {categorie}
           </Text>
           <ScrollView>
             <View style={styles.filmsList}>
-              <TouchableOpacity
-                onPress={() => navigation.navigate('Detaill')}
-                style={styles.film}>
-                <Image
-                  style={{width: 150, height: 200, borderRadius: 20}}
-                  source={require('./images/filmimg.png')}
+              {!movies ? (
+                <ActivityIndicator
+                  style={{marginTop: 100}}
+                  size="large"
+                  color="#fff"
                 />
-                <View style={styles.topImage}>
-                  <Text style={{color: 'white', fontSize: 18}}>
-                    Black Panther: Wakanda Forever
-                  </Text>
-                  <StarRating
-                    disabled={true} // Set to true to disable user interaction
-                    maxStars={5} // The total number of stars to display
-                    rating={3.5} // The rating to display
-                    starSize={20} // The size of each star
-                    fullStarColor="yellow" // set the color of the filled star
-                    emptyStarColor="yellow" // set the color of the empty star
-                  />
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.film}>
-                <Image
-                  style={{width: 150, height: 200, borderRadius: 20}}
-                  source={require('./images/filmimg.png')}
-                />
-                <View style={styles.topImage}>
-                  <Text style={{color: 'white', fontSize: 18}}>
-                    Black Panther: Wakanda Forever
-                  </Text>
-                  <StarRating
-                    disabled={true} // Set to true to disable user interaction
-                    maxStars={5} // The total number of stars to display
-                    rating={3.5} // The rating to display
-                    starSize={20} // The size of each star
-                    fullStarColor="yellow" // set the color of the filled star
-                    emptyStarColor="yellow" // set the color of the empty star
-                  />
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.film}>
-                <Image
-                  style={{width: 150, height: 200, borderRadius: 20}}
-                  source={require('./images/filmimg.png')}
-                />
-                <View style={styles.topImage}>
-                  <Text style={{color: 'white', fontSize: 18}}>
-                    Black Panther: Wakanda Forever
-                  </Text>
-                  <StarRating
-                    disabled={true} // Set to true to disable user interaction
-                    maxStars={5} // The total number of stars to display
-                    rating={3.5} // The rating to display
-                    starSize={20} // The size of each star
-                    fullStarColor="yellow" // set the color of the filled star
-                    emptyStarColor="yellow" // set the color of the empty star
-                  />
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.film}>
-                <Image
-                  style={{width: 150, height: 200, borderRadius: 20}}
-                  source={require('./images/filmimg.png')}
-                />
-                <View style={styles.topImage}>
-                  <Text style={{color: 'white', fontSize: 18}}>
-                    Black Panther: Wakanda Forever
-                  </Text>
-                  <StarRating
-                    disabled={true} // Set to true to disable user interaction
-                    maxStars={5} // The total number of stars to display
-                    rating={3.5} // The rating to display
-                    starSize={20} // The size of each star
-                    fullStarColor="yellow" // set the color of the filled star
-                    emptyStarColor="yellow" // set the color of the empty star
-                  />
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.film}>
-                <Image
-                  style={{width: 150, height: 200, borderRadius: 20}}
-                  source={require('./images/filmimg.png')}
-                />
-                <View style={styles.topImage}>
-                  <Text style={{color: 'white', fontSize: 18}}>
-                    Black Panther: Wakanda Forever
-                  </Text>
-                  <StarRating
-                    disabled={true} // Set to true to disable user interaction
-                    maxStars={5} // The total number of stars to display
-                    rating={3.5} // The rating to display
-                    starSize={20} // The size of each star
-                    fullStarColor="yellow" // set the color of the filled star
-                    emptyStarColor="yellow" // set the color of the empty star
-                  />
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.film}>
-                <Image
-                  style={{width: 150, height: 200, borderRadius: 20}}
-                  source={require('./images/filmimg.png')}
-                />
-                <View style={styles.topImage}>
-                  <Text style={{color: 'white', fontSize: 18}}>
-                    Black Panther: Wakanda Forever
-                  </Text>
-                  <StarRating
-                    disabled={true} // Set to true to disable user interaction
-                    maxStars={5} // The total number of stars to display
-                    rating={3.5} // The rating to display
-                    starSize={20} // The size of each star
-                    fullStarColor="yellow" // set the color of the filled star
-                    emptyStarColor="yellow" // set the color of the empty star
-                  />
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.film}>
-                <Image
-                  style={{width: 150, height: 200, borderRadius: 20}}
-                  source={require('./images/filmimg.png')}
-                />
-                <View style={styles.topImage}>
-                  <Text style={{color: 'white', fontSize: 18}}>
-                    Black Panther: Wakanda Forever
-                  </Text>
-                  <StarRating
-                    disabled={true} // Set to true to disable user interaction
-                    maxStars={5} // The total number of stars to display
-                    rating={3.5} // The rating to display
-                    starSize={20} // The size of each star
-                    fullStarColor="yellow" // set the color of the filled star
-                    emptyStarColor="yellow" // set the color of the empty star
-                  />
-                </View>
-              </TouchableOpacity>
+              ) : (
+                movies.map(movie => {
+                  return (
+                    <TouchableOpacity
+                      onPress={() =>
+                        navigation.navigate('Detaill', {id: movie.id})
+                      }
+                      style={styles.film}>
+                      <Image
+                        style={{width: 150, height: 200, borderRadius: 20}}
+                        source={{
+                          uri:
+                            'https://image.tmdb.org/t/p/w500' +
+                            movie.backdrop_path,
+                        }}
+                      />
+                      <View style={styles.topImage}>
+                        <View style={styles.rating}>
+                          <Text style={{color: 'black'}}>
+                            {movie.vote_average}
+                          </Text>
+                        </View>
+                        <Text style={{color: 'white', fontSize: 18}}>
+                          {movie.title}
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
+                  );
+                })
+              )}
             </View>
           </ScrollView>
         </View>
@@ -281,6 +222,7 @@ const styles = StyleSheet.create({
 
   films: {
     marginHorizontal: '5%',
+    marginBottom: 150,
   },
   filmsList: {
     flexDirection: 'row',
@@ -300,5 +242,14 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     paddingBottom: 20,
     paddingHorizontal: 10,
+    justifyContent: 'space-between',
+  },
+  rating: {
+    marginTop: 5,
+    backgroundColor: '#FFC837',
+    width: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 5,
   },
 });

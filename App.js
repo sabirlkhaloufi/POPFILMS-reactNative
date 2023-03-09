@@ -4,6 +4,8 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Home from './src/screens/Home';
 import Films from './src/screens/Films';
 import DetaillFilm from './src/screens/DetaillFilm';
+import store from './src/redux/store/Store';
+import {Provider} from 'react-redux';
 
 const Stack = createNativeStackNavigator();
 
@@ -17,25 +19,27 @@ const MyTheme = {
 
 const App = () => {
   return (
-    <NavigationContainer theme={MyTheme}>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Home"
-          component={Home}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="Films"
-          component={Films}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="Detaill"
-          component={DetaillFilm}
-          options={{headerShown: false}}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer theme={MyTheme}>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Home"
+            component={Home}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="Films"
+            component={Films}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="Detaill"
+            component={DetaillFilm}
+            options={{headerShown: false}}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 };
 
