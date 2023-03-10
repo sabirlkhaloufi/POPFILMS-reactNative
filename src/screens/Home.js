@@ -16,8 +16,9 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import Feather from 'react-native-vector-icons/Feather';
 import StarRating from 'react-native-star-rating';
 import {useDispatch, useSelector} from 'react-redux';
-import {fetchMovies} from '../redux/store/moviesSlice';
+import {fetchMovies, setData} from '../redux/store/moviesSlice';
 import axios from 'axios';
+import SearchMovies from '../components/SearchMovies';
 
 const categories = [
   {categorie: 'popular', icon: 'star', Active: false},
@@ -35,24 +36,6 @@ const Home = ({navigation}) => {
     setCategorie(cat);
   };
 
-  const searchMovies = () => {
-    axios
-      .get(
-        `https://api.themoviedb.org/3/search/movie?api_key=bcc4ff10c2939665232d75d8bf0ec093&query=${search}`,
-      )
-      .then(response => {
-        console.log(response);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
-
-  useEffect(() => {
-    searchMovies();
-    // dispatch(searchMovies(search));
-  }, [search]);
-
   const dispatch = useDispatch();
   const movies = useSelector(state => state.movies.movies);
   const status = useSelector(state => state.movies.status);
@@ -61,8 +44,6 @@ const Home = ({navigation}) => {
   useEffect(() => {
     dispatch(fetchMovies(categorie));
   }, [categorie]);
-
-  console.log(movies);
 
   if (status === 'failed') {
     return <Text>{error}</Text>;
@@ -156,7 +137,9 @@ const Home = ({navigation}) => {
             </View>
           </ScrollView>
         </View>
+        {search && <SearchMovies search={search} navigation={navigation} />}
       </ImageBackground>
+
       {/* <Navbar /> */}
     </>
   );
@@ -175,6 +158,7 @@ const styles = StyleSheet.create({
     marginTop: '5%',
     marginHorizontal: '5%',
     alignItems: 'center',
+    zIndex: 1,
   },
   name: {
     color: 'white',
@@ -191,6 +175,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderWidth: 1,
     borderColor: 'rgba(255, 255, 255, 0.2)',
+    zIndex: 1,
   },
   input: {
     width: '85%',
