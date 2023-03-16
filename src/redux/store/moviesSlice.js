@@ -4,8 +4,6 @@ import {ApiKey} from '../../Utils/ApiKey';
 
 const initialState = {
   movies: [],
-  status: 'idle',
-  error: null,
 };
 
 export const fetchMovies = createAsyncThunk(
@@ -23,18 +21,10 @@ const moviesSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: builder => {
-    builder
-      .addCase(fetchMovies.pending, state => {
-        state.status = 'loading';
-      })
-      .addCase(fetchMovies.fulfilled, (state, action) => {
-        state.status = 'succeeded';
-        state.movies = action.payload;
-      })
-      .addCase(fetchMovies.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.error.message;
-      });
+    builder.addCase(fetchMovies.fulfilled, (state, action) => {
+      state.status = 'succeeded';
+      state.movies = action.payload;
+    });
   },
 });
 

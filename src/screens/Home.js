@@ -16,7 +16,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import Feather from 'react-native-vector-icons/Feather';
 import StarRating from 'react-native-star-rating';
 import {useDispatch, useSelector} from 'react-redux';
-import {fetchMovies, setData} from '../redux/store/moviesSlice';
+import {fetchMovies} from '../redux/store/moviesSlice';
 import axios from 'axios';
 import SearchMovies from '../components/SearchMovies';
 
@@ -38,16 +38,11 @@ const Home = ({navigation}) => {
 
   const dispatch = useDispatch();
   const movies = useSelector(state => state.movies.movies);
-  const status = useSelector(state => state.movies.status);
-  const error = useSelector(state => state.movies.error);
 
   useEffect(() => {
     dispatch(fetchMovies(categorie));
   }, [categorie]);
 
-  if (status === 'failed') {
-    return <Text>{error}</Text>;
-  }
   return (
     <>
       <ImageBackground style={styles.bg} source={require('./images/bg.jpg')}>
@@ -108,6 +103,7 @@ const Home = ({navigation}) => {
                 movies.map(movie => {
                   return (
                     <TouchableOpacity
+                      key={movie.id}
                       onPress={() =>
                         navigation.navigate('Detaill', {id: movie.id})
                       }
@@ -222,7 +218,7 @@ const styles = StyleSheet.create({
   topImage: {
     position: 'absolute',
     width: 150,
-    backgroundColor: 'rgba(9, 9, 15, 0.6)',
+    backgroundColor: 'rgba(9, 9, 15, 0.2é)',
     height: '100%',
     justifyContent: 'flex-end',
     paddingBottom: 20,

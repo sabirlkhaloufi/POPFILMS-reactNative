@@ -12,27 +12,18 @@ import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import StarRating from 'react-native-star-rating';
 import axios from 'axios';
-import Video from 'react-native-video';
-import VideoPlayer from 'react-native-video-player';
+import {ApiKey} from '../Utils/ApiKey';
 
 const pathImg = 'https://image.tmdb.org/t/p/w500';
 
 const DetaillFilm = ({route}) => {
   const [detaillMovie, setdetaillMovie] = useState([]);
   const [actors, setActors] = useState([]);
-  // const [video, setvideo] = useState(null);
-
-  const video = {
-    uri: 'https://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4',
-    thumbnail: 'https://www.sample-videos.com/img/Sample-jpg-image-50kb.jpg',
-    title: 'Big Buck Bunny',
-    duration: 60,
-  };
 
   const getMovie = () => {
     axios
       .get(
-        `https://api.themoviedb.org/3/movie/${route.params.id}?api_key=bcc4ff10c2939665232d75d8bf0ec093`,
+        `https://api.themoviedb.org/3/movie/${route.params.id}?api_key=${ApiKey}`,
       )
       .then(response => {
         setdetaillMovie(response.data);
@@ -45,7 +36,7 @@ const DetaillFilm = ({route}) => {
   const getActors = () => {
     axios
       .get(
-        `https://api.themoviedb.org/3/movie/${route.params.id}/credits?api_key=bcc4ff10c2939665232d75d8bf0ec093`,
+        `https://api.themoviedb.org/3/movie/${route.params.id}/credits?api_key=${ApiKey}`,
       )
       .then(response => {
         setActors(response.data.cast);
@@ -58,7 +49,7 @@ const DetaillFilm = ({route}) => {
   const getVedeio = () => {
     axios
       .get(
-        `https://api.themoviedb.org/3/movie/${route.params.id}/videos?api_key=bcc4ff10c2939665232d75d8bf0ec093`,
+        `https://api.themoviedb.org/3/movie/${route.params.id}/videos?api_key=${ApiKey}`,
       )
       .then(response => {
         console.log(response.data.results[0].key);
@@ -98,14 +89,14 @@ const DetaillFilm = ({route}) => {
               '#0A0A11',
               '#000',
             ]}>
-            <TouchableOpacity style={styles.play}>
+            {/* <TouchableOpacity style={styles.play}>
               <FontAwesome5
                 style={{marginLeft: 2}}
                 name="play"
                 color="white"
                 size={20}
               />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <Text style={{color: 'white', fontSize: 25, marginTop: 10}}>
               {detaillMovie.title}
             </Text>
@@ -134,7 +125,7 @@ const DetaillFilm = ({route}) => {
               {actors &&
                 actors.map(actor => {
                   return (
-                    <View style={styles.artist}>
+                    <View key={actor.id} style={styles.artist}>
                       <Image
                         style={{
                           width: 100,
@@ -171,6 +162,16 @@ const DetaillFilm = ({route}) => {
             }}>
             {detaillMovie.overview}
           </Text>
+        </View>
+
+        <View>
+          <TouchableOpacity onPress={() => startRecord()}>
+            <Text>start recording</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => stopRecord()}>
+            <Text>stop recording</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </View>

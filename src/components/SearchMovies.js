@@ -9,6 +9,7 @@ import {
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import StarRating from 'react-native-star-rating';
+import {ApiKey} from '../Utils/ApiKey';
 
 const SearchMovies = ({search, navigation}) => {
   const pathImg = 'https://image.tmdb.org/t/p/w500';
@@ -17,7 +18,7 @@ const SearchMovies = ({search, navigation}) => {
   const searchMovies = () => {
     axios
       .get(
-        `https://api.themoviedb.org/3/search/movie?api_key=bcc4ff10c2939665232d75d8bf0ec093&query=${search}`,
+        `https://api.themoviedb.org/3/search/movie?api_key=${ApiKey}&query=${search}`,
       )
       .then(response => {
         console.log(response.data);
@@ -40,6 +41,7 @@ const SearchMovies = ({search, navigation}) => {
             movies.map(movie => {
               return (
                 <TouchableOpacity
+                  key={movie.id}
                   style={styles.movie}
                   onPress={() =>
                     navigation.navigate('Detaill', {id: movie.id})
